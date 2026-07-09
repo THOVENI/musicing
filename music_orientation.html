@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>음악, 하다 — 오리엔테이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Sans+KR:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c;
+    --panel: #1b1f27;
+    --panel-2: #21262f;
+    --ink: #eee7d8;
+    --ink-dim: #9a9385;
+    --brass: #c9a15c;
+    --brass-dim: #7d6a45;
+    --vu-green: #6fa98b;
+    --peak-red: #b5533f;
+    --hairline: rgba(238,231,216,0.10);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+
+  .label{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--brass);
+  }
+
+  section{
+    position:relative;
+    padding:7rem 6vw;
+  }
+
+  @media (max-width:720px){
+    section{ padding:5rem 6vw; }
+  }
+
+  /* ---------- HERO ---------- */
+  #hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding:6vw;
+    background:
+      radial-gradient(ellipse 900px 500px at 80% -10%, rgba(201,161,92,0.10), transparent 60%),
+      var(--bg);
+  }
+
+  .eq-backdrop{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:0.5vw;
+    padding:0 2vw 0 2vw;
+    opacity:0.16;
+    pointer-events:none;
+    z-index:0;
+  }
+  .eq-backdrop span{
+    width:1.4vw;
+    max-width:22px;
+    background:linear-gradient(to top, var(--vu-green), var(--brass));
+    border-radius:2px 2px 0 0;
+    animation: eqmove 2.6s ease-in-out infinite;
+  }
+  @keyframes eqmove{
+    0%,100%{ height:8%; }
+    50%{ height:var(--h,70%); }
+  }
+
+  .hero-inner{ position:relative; z-index:1; max-width:900px; }
+
+  .hero-tag{
+    display:flex; align-items:center; gap:0.8rem;
+    margin-bottom:2.2rem;
+  }
+  .hero-tag::before{
+    content:'';
+    width:8px; height:8px; border-radius:50%;
+    background:var(--peak-red);
+    box-shadow:0 0 10px var(--peak-red);
+  }
+
+  .quote{
+    font-family:'Song Myung', serif;
+    font-size:clamp(2rem, 5vw, 3.4rem);
+    line-height:1.42;
+    color:var(--ink);
+    max-width:15ch;
+  }
+  .quote-attr{
+    margin-top:2rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.95rem;
+    color:var(--ink-dim);
+  }
+  .quote-attr span{ color:var(--brass); }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:3rem; left:6vw;
+    display:flex; align-items:center; gap:0.6rem;
+    color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.1em;
+  }
+  .scroll-cue .line{
+    width:36px; height:1px; background:var(--ink-dim);
+    position:relative; overflow:hidden;
+  }
+  .scroll-cue .line::after{
+    content:'';
+    position:absolute; left:-100%; top:0;
+    width:100%; height:100%;
+    background:var(--brass);
+    animation: slide 2.2s ease-in-out infinite;
+  }
+  @keyframes slide{
+    0%{ left:-100%; } 50%{ left:100%; } 100%{ left:100%; }
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  .sec-head{ max-width:640px; margin-bottom:3.4rem; }
+  .sec-head .label{ margin-bottom:1rem; display:block; }
+  .sec-head h2{
+    font-family:'Song Myung', serif;
+    font-weight:400;
+    font-size:clamp(1.7rem, 3.4vw, 2.4rem);
+    line-height:1.4;
+  }
+  .sec-head p{
+    margin-top:1.1rem;
+    color:var(--ink-dim);
+    font-size:1rem;
+    max-width:56ch;
+  }
+
+  /* ---------- WHY SECTION ---------- */
+  #why{ background:var(--panel); border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline); }
+
+  .reason-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+  }
+  @media (max-width:720px){ .reason-grid{ grid-template-columns:1fr; } }
+
+  .reason{
+    background:var(--panel);
+    padding:2.6rem 2.2rem;
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reason.in{ opacity:1; transform:none; }
+
+  .knob{
+    width:52px; height:52px;
+    margin-bottom:1.4rem;
+  }
+  .knob circle.ring{ fill:none; stroke:var(--hairline); stroke-width:1.5; }
+  .knob circle.dot{ fill:var(--panel-2); stroke:var(--brass-dim); stroke-width:1; }
+  .knob line{ stroke:var(--brass); stroke-width:2.5; stroke-linecap:round; }
+
+  .reason h3{
+    font-family:'Song Myung', serif;
+    font-weight:400;
+    font-size:1.25rem;
+    margin-bottom:0.7rem;
+    color:var(--ink);
+  }
+  .reason p{ color:var(--ink-dim); font-size:0.95rem; }
+
+  /* ---------- PHILOSOPHY ---------- */
+  #philosophy{ padding-top:8rem; padding-bottom:8rem; }
+
+  .verb-statement{
+    font-family:'Song Myung', serif;
+    font-size:clamp(1.8rem, 4.4vw, 3rem);
+    line-height:1.5;
+    max-width:16ch;
+    margin-bottom:1rem;
+  }
+  .verb-statement .no{ color:var(--peak-red); text-decoration:line-through; text-decoration-thickness:2px; text-decoration-color:var(--peak-red); }
+  .verb-statement .yes{ color:var(--vu-green); }
+
+  .verb-sub{
+    color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    letter-spacing:0.04em;
+    margin-bottom:3.4rem;
+  }
+
+  .musicking-body{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:4rem;
+    align-items:start;
+  }
+  @media (max-width:860px){ .musicking-body{ grid-template-columns:1fr; gap:3rem; } }
+
+  .musicking-body p{ color:var(--ink-dim); margin-bottom:1.2rem; font-size:1rem; }
+  .musicking-body strong{ color:var(--ink); font-weight:500; }
+
+  .term-card{
+    border:1px solid var(--hairline);
+    background:var(--panel);
+    padding:2.2rem;
+  }
+  .term-card .label{ display:block; margin-bottom:1rem; }
+  .term-card .term{
+    font-family:'Song Myung', serif;
+    font-size:1.6rem;
+    margin-bottom:0.4rem;
+  }
+  .term-card .term-en{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--brass);
+    margin-bottom:1.4rem;
+    display:block;
+  }
+  .term-card .term-def{ color:var(--ink-dim); font-size:0.94rem; }
+
+  .staff-to-wave{
+    margin-top:2rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .staff-to-wave svg{ display:block; }
+  .staff-to-wave .arrow{ color:var(--brass-dim); font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- CLASSROOM PRACTICE ---------- */
+  #practice{ background:var(--panel); border-top:1px solid var(--hairline); }
+
+  .track-list{ border-top:1px solid var(--hairline); }
+  .track{
+    display:grid;
+    grid-template-columns:60px 1fr 2fr;
+    gap:2rem;
+    align-items:baseline;
+    padding:1.8rem 0;
+    border-bottom:1px solid var(--hairline);
+  }
+  @media (max-width:720px){
+    .track{ grid-template-columns:40px 1fr; }
+    .track p{ grid-column:1/-1; margin-top:0.5rem; }
+  }
+  .track .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--brass-dim);
+    font-size:0.85rem;
+  }
+  .track h4{
+    font-family:'Song Myung', serif;
+    font-weight:400;
+    font-size:1.2rem;
+  }
+  .track p{ color:var(--ink-dim); font-size:0.94rem; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:6rem 6vw 4rem;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1.6rem;
+  }
+  footer .closing{
+    font-family:'Song Myung', serif;
+    font-size:clamp(1.4rem, 2.6vw, 1.9rem);
+    max-width:16ch;
+    line-height:1.5;
+  }
+  footer .sign{
+    color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section id="hero">
+  <div class="eq-backdrop" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="label">1학기 · 첫 번째 수업</span></div>
+    <p class="quote">
+      음악은 우주에 영혼을,<br>
+      마음에 날개를,<br>
+      상상력에 비상을,<br>
+      그리고 모든 것에 생명을 준다.
+    </p>
+    <p class="quote-attr">— <span>플라톤 (Plato)</span></p>
+  </div>
+  <div class="scroll-cue"><div class="line"></div>SCROLL</div>
+</section>
+
+<section id="why">
+  <div class="sec-head">
+    <span class="label">Why Music</span>
+    <h2>우리는 왜 음악을 배울까요?</h2>
+    <p>수행평가도, 대입도 아닌 이유로 음악을 배워야 하는 순간이 있습니다. 그 이유들을 함께 짚어봅니다.</p>
+  </div>
+
+  <div class="reason-grid">
+    <div class="reason">
+      <svg class="knob" viewBox="0 0 52 52"><circle class="ring" cx="26" cy="26" r="23"/><circle class="dot" cx="26" cy="26" r="17"/><line x1="26" y1="26" x2="26" y2="10" transform="rotate(-40 26 26)"/></svg>
+      <h3>감정의 언어</h3>
+      <p>말로는 다 담을 수 없는 감정이 있습니다. 음악은 그 틈을 채우는, 말보다 오래된 언어입니다.</p>
+    </div>
+    <div class="reason">
+      <svg class="knob" viewBox="0 0 52 52"><circle class="ring" cx="26" cy="26" r="23"/><circle class="dot" cx="26" cy="26" r="17"/><line x1="26" y1="26" x2="26" y2="10" transform="rotate(20 26 26)"/></svg>
+      <h3>함께 만드는 경험</h3>
+      <p>합주와 합창은 내 소리를 내면서 동시에 남의 소리를 듣는 연습입니다. 학교에서 배울 수 있는 몇 안 되는 공동 작업입니다.</p>
+    </div>
+    <div class="reason">
+      <svg class="knob" viewBox="0 0 52 52"><circle class="ring" cx="26" cy="26" r="23"/><circle class="dot" cx="26" cy="26" r="17"/><line x1="26" y1="26" x2="26" y2="10" transform="rotate(90 26 26)"/></svg>
+      <h3>동시에 쓰는 뇌</h3>
+      <p>박자를 세는 논리, 선율을 느끼는 감성, 악기를 다루는 몸의 감각. 음악은 이 세 가지를 한 번에 요구하는 몇 안 되는 활동입니다.</p>
+    </div>
+    <div class="reason">
+      <svg class="knob" viewBox="0 0 52 52"><circle class="ring" cx="26" cy="26" r="23"/><circle class="dot" cx="26" cy="26" r="17"/><line x1="26" y1="26" x2="26" y2="10" transform="rotate(-100 26 26)"/></svg>
+      <h3>삶을 견디는 힘</h3>
+      <p>음악은 위로가 되고, 축제가 되고, 때로는 저항의 목소리가 됩니다. 여러분의 삶 어딘가에서 반드시 다시 필요해질 도구입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="philosophy">
+  <div class="sec-head">
+    <span class="label">My Philosophy</span>
+  </div>
+
+  <p class="verb-statement">음악은 <span class="no">명사</span>가 아니라 <span class="yes">동사</span>입니다.</p>
+  <p class="verb-sub">MUSIC IS NOT A NOUN. IT'S A VERB.</p>
+
+  <div class="musicking-body">
+    <div>
+      <p>음악학자 <strong>크리스토퍼 스몰(Christopher Small)</strong>은 음악(music)이라는 명사 대신 <strong>musicking(음악하기)</strong>이라는 동사를 제안했습니다. 음악은 악보 속에 완성되어 있는 사물이 아니라, 연주하고, 만들고, 듣고, 몸을 움직이고, 함께 어울리는 <strong>모든 참여의 행위</strong> 그 자체라는 뜻입니다.</p>
+      <p>저의 수업 철학도 여기서 출발합니다. 저는 여러분을 무대 아래 앉아있는 관객이 아니라, 무대 위에서 소리를 만드는 참여자로 봅니다. 잘 치고 못 치고는 그 다음 문제입니다. 먼저 <strong>직접 소리를 내보는 것</strong>, 그것이 이 교실의 출발점입니다.</p>
+      <p>이런 접근을 <strong>실천주의(praxis) 음악교육</strong>이라 부릅니다. 음악을 지식으로 배우는 것을 넘어, 몸과 소리로 직접 부딪히며 익히는 것. 그래서 이 교실에서는 듣는 시간보다 소리 내는 시간이, 설명을 받아 적는 시간보다 직접 만들어보는 시간이 더 많을 것입니다.</p>
+    </div>
+
+    <div class="term-card">
+      <span class="label">Key Concept</span>
+      <p class="term">음악하기</p>
+      <span class="term-en">MUSICKING</span>
+      <p class="term-def">연주자든, 청중이든, 몸을 흔드는 사람이든, 악보를 넘기는 사람이든 — 음악이 일어나는 자리에 어떤 방식으로든 참여하는 모든 행위.</p>
+
+      <div class="staff-to-wave">
+        <svg width="70" height="34" viewBox="0 0 70 34"><g stroke="var(--ink-dim)" stroke-width="1"><line x1="0" y1="6" x2="70" y2="6"/><line x1="0" y1="13" x2="70" y2="13"/><line x1="0" y1="20" x2="70" y2="20"/><line x1="0" y1="27" x2="70" y2="27"/></g></svg>
+        <span class="arrow">→</span>
+        <svg width="70" height="34" viewBox="0 0 70 34"><polyline points="0,17 8,4 16,28 24,8 32,24 40,10 48,26 56,6 64,20 70,17" fill="none" stroke="var(--vu-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="practice">
+  <div class="sec-head">
+    <span class="label">In This Classroom</span>
+    <h2>이 교실에서 우리는</h2>
+  </div>
+
+  <div class="track-list">
+    <div class="track">
+      <span class="num">01</span>
+      <h4>연주하기</h4>
+      <p>악기와 목소리로 직접 소리를 냅니다. 서툴러도 괜찮습니다. 소리를 낸 순간, 이미 음악을 하고 있는 것입니다.</p>
+    </div>
+    <div class="track">
+      <span class="num">02</span>
+      <h4>만들기</h4>
+      <p>즉흥연주와 짧은 작곡으로 나만의 소리를 찾아봅니다. 정답이 정해져 있지 않은 시간입니다.</p>
+    </div>
+    <div class="track">
+      <span class="num">03</span>
+      <h4>듣고 움직이기</h4>
+      <p>귀로만 듣지 않습니다. 박자에 맞춰 몸을 움직이고, 음악이 몸에 어떻게 닿는지 느껴봅니다.</p>
+    </div>
+    <div class="track">
+      <span class="num">04</span>
+      <h4>함께하기</h4>
+      <p>서로의 소리에 귀 기울이며 하나의 음악을 만들어갑니다. 이 교실의 음악은 혼자 완성되지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="closing">당신도 오늘부터,<br>음악을 '하는' 사람입니다.</p>
+  <p class="sign">— 이 수업을 함께할 음악 선생님으로부터</p>
+</footer>
+
+<script>
+  const bars = document.querySelector('.eq-backdrop');
+  const n = 28;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('span');
+    s.style.setProperty('--h', (30+Math.random()*65)+'%');
+    s.style.animationDelay = (Math.random()*2.2)+'s';
+    s.style.animationDuration = (2+Math.random()*1.6)+'s';
+    bars.appendChild(s);
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, {threshold:0.2});
+  document.querySelectorAll('.reason').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
